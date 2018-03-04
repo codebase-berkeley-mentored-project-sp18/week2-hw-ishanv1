@@ -14,7 +14,17 @@ function getElementsByClassName(strClassName) {
   //=====================
   // YOUR CODE HERE
   //=====================
-  return;
+  var root = document.body
+  var array = [];
+  function check (node) {
+    if (node.classList && node.classList.contains(strClassName)) {
+      array.push(node);
+    }
+    node.childNodes.forEach(check);
+  }
+
+  check(root);
+  return array;
 }
 
 
