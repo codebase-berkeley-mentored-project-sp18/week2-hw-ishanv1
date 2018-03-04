@@ -21,6 +21,10 @@ addMessage("Player " + player + " it is your turn!", "standard");
 // -----------------------------------------------------------------
 
 // TODO: add the setSpot function to be the event to each "spot"
+var spots = document.getElementsByClassName("spot");
+for (var i = 0; i < spots.length; i++){
+	spots[i].addEventListener("click", setSpot);
+}
 
 
 // -----------------------------------------------------------------
@@ -32,12 +36,15 @@ addMessage("Player " + player + " it is your turn!", "standard");
    HTML board */
 function setSpot() {
 	// TODO: assign id to be the id of the element that got selected
+	var id = this.id;
 	var row = getRow(id);
 	var col = getCol(id);
 
 	if (board[row][col] === '-') {
 		board[row][col] = player;
 		// TODO: add the player to the HTML board too (this is not the same as the 2D array)
+		this.innerHTML = player;
+
 		
 		validInput = true;
 		moves += 1;
@@ -50,6 +57,9 @@ function setSpot() {
 		if (winner) {
 			addMessage("Congratulations, " + switchPlayer() + " you won!", "endgame");
 			// TODO: remove the event listener from every spot
+			for (var i = 0; i < spots.length; i++){
+				spots[i].removeEventListener("click", setSpot);
+			}	
 		} else if (moves === 9) {
 			addMessage("You both suck, it's a tie!", "endgame");
 		}
@@ -58,6 +68,9 @@ function setSpot() {
 
 function addMessage(message, c) {
 	// change the message and assign the class c to the message paragraph
+	document.getElementById("message").innerHTML = message;
+	document.getElementById("message").className = c;
+
 }
 
 
@@ -103,10 +116,12 @@ function isWinner() {
 
 function getRow(id) {
 	// TODO: given the id (a string, return the row)
+	return parseInt(id.substring(1));
 }
 
 function getCol(id) {
 	// TODO: given the id (a string, return the col)
+	return parseInt(id.substring(0,1));
 }
 
 
